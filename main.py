@@ -1,7 +1,7 @@
 import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin, LoginManager, login_required, login_user, current_user
+from flask_login import UserMixin, LoginManager, login_required, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
 from dotenv import load_dotenv
 load_dotenv()
@@ -87,6 +87,12 @@ def dashboard():
 @login_required
 def download():
     return send_from_directory('static', filename="cheat_sheet.pdf")
+
+
+@app.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('index'))
 
 
 if __name__ == '__main__':
