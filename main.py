@@ -2,6 +2,7 @@ import os
 from flask import Flask, render_template, request, redirect, url_for, send_from_directory
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
+from werkzeug.security import generate_password_hash
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -41,10 +42,12 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
+        encrypt_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+
         new_user = Users(
             name=name,
             email=email,
-            password=password
+            password=encrypt_password,
         )
         db.session.add(new_user)
         db.session.commit()
