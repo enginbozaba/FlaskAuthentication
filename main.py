@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template
+from flask import Flask, render_template, request, redirect, url_for
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 from dotenv import load_dotenv
@@ -34,8 +34,21 @@ def login():
     return render_template('login.html')
 
 
-@app.route('/register')
+@app.route('/register', methods=['GET', 'POST'])
 def register():
+    if request.method == 'POST':
+        name = request.form['name']
+        email = request.form['email']
+        password = request.form['password']
+
+        new_user = Users(
+            name=name,
+            email=email,
+            password=password
+        )
+        db.session.add(new_user)
+        db.session.commit()
+        return redirect(url_for('dashboard'))
     return render_template('register.html')
 
 
