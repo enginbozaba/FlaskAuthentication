@@ -27,12 +27,18 @@
                 <li class="nav-item">
                   <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
                 </li>
-                  <li class="nav-item">
-                  <a class="nav-link" href="{{ url_for('register') }}">Register</a>
-                </li>
-                <li class="nav-item">
-                    <a class="btn btn-danger" href="{{ url_for('login') }}" role="button">Log in</a>
-                </li>
+                  {% if current_user.is_authenticated %}
+                     <li class="nav-item">
+                        <a class="btn btn-danger" href="{{ url_for('logout') }}" role="button">Log out</a>
+                    </li>
+                  {% else %}
+                        <li class="nav-item">
+                          <a class="nav-link" href="{{ url_for('register') }}">Register</a>
+                        </li>
+                        <li class="nav-item">
+                            <a class="btn btn-danger" href="{{ url_for('login') }}" role="button">Log in</a>
+                        </li>
+                  {% endif %}
 
               </ul>
             </div>
