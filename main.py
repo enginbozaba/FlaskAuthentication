@@ -1,5 +1,5 @@
 import os
-from flask import Flask, render_template, request, redirect, url_for, send_from_directory
+from flask import Flask, render_template, request, redirect, url_for, send_from_directory, flash
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin, LoginManager, login_required, login_user, current_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -46,10 +46,14 @@ def login():
         # Find the user by email
         user = Users.query.filter_by(email=email).first()
 
-        # Check stored password hash against entered password hashed.
-        if check_password_hash(user.password, password):
+        if not user:
+            flash("Invalid email address, try again.")
+        elif not check_password_hash(user.password, password):
+            flash('Password incorrect, try again.')
+        else:
             login_user(user)
             return redirect(url_for('dashboard'))
+
     return render_template('login.html')
 
 
@@ -60,26 +64,30 @@ def register():
         email = request.form['email']
         password = request.form['password']
 
-        encrypt_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
+        # Make sure the email does not exist
+        if Users.query.filter_by(email=email).first():
+            flash("That email exists in the database, try again!!!")
+        else:
+            encrypt_password = generate_password_hash(password, method='pbkdf2:sha256', salt_length=8)
 
-        new_user = Users(
-            name=name,
-            email=email,
-            password=encrypt_password,
-        )
-        db.session.add(new_user)
-        db.session.commit()
+            new_user = Users(
+                name=name,
+                email=email,
+                password=encrypt_password,
+            )
+            db.session.add(new_user)
+            db.session.commit()
 
-        # Log in and authenticate user after adding details to database.
-        login_user(new_user)
-
-        return redirect(url_for('dashboard'))
+            # Log in and authenticate user after adding details to database.
+            login_user(new_user)
+            return redirect(url_for('dashboard'))
     return render_template('register.html')
 
 
 @app.route('/dashboard')
 @login_required
 def dashboard():
+    flash("Logged in Successfully")
     return render_template('dashboard.html', name=current_user.name)
 
 
