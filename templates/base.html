@@ -18,20 +18,20 @@
 
         <nav class="navbar navbar-expand-lg navbar-dark indigo">
           <div class="container">
-            <a class="navbar-brand" href="#">A3AJAGBE FLASK-AUTH</a>
+            <a class="navbar-brand" href="{{ url_for('index') }}">A3AJAGBE FLASK-AUTH</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse justify-content-end" id="navbarNav" >
               <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                  <a class="nav-link active" aria-current="page" href="#">Home</a>
+                  <a class="nav-link active" aria-current="page" href="{{ url_for('index') }}">Home</a>
                 </li>
                   <li class="nav-item">
-                  <a class="nav-link" href="#">Register</a>
+                  <a class="nav-link" href="{{ url_for('register') }}">Register</a>
                 </li>
                 <li class="nav-item">
-                    <button class="btn btn-danger" type="button">Log in</button>
+                    <a class="btn btn-danger" href="{{ url_for('login') }}" role="button">Log in</a>
                 </li>
 
               </ul>
