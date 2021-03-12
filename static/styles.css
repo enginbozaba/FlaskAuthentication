@@ -1,0 +1,27 @@
+.indigo {
+    background-color: #6610f2;
+}
+
+.box {
+    position: absolute;
+	top: 50%;
+	left: 50%;
+	margin: -150px 0 0 -150px;
+	width: 300px;
+	height: 300px;
+}
+.box h1, .dash h1 {
+    color: #6610f2;
+    text-shadow: 0 0 10px rgba(0,0,0,0.3);
+    letter-spacing: 1px;
+    text-align: center;
+}
+.dash {
+    margin-top: 10rem;
+	text-align: center;
+}
+
+.message {
+    width: 30%;
+    margin: 0 auto;
+}
